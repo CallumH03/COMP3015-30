@@ -12,11 +12,12 @@ using std::cerr;
 using std::endl;
 
 #include "helper/glutils.h"
+#include "helper/texture.h"
 
 using glm::vec3;
 using glm::mat4;
 
-SceneBasic_Uniform::SceneBasic_Uniform() : plane(50.0f,50.0f,100,100) {
+SceneBasic_Uniform::SceneBasic_Uniform() : plane(18.0f,18.0f,100,100) {
     mesh = ObjMesh::load("../COMP3015-30/media/palmtree.obj",true);
 }
 
@@ -75,51 +76,60 @@ void SceneBasic_Uniform::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    prog.setUniform("Material.Kd", vec3(0.54f, 0.27f, 0.07f));
-    prog.setUniform("Material.Ka", vec3(0.4f, 0.2f, 0.05f));
-    prog.setUniform("Material.Ks", vec3(0.8f, 0.8f, 0.8f));
+    prog.setUniform("Material.Kd", vec3(0.3f, 0.15f, 0.05f));
+    prog.setUniform("Material.Ka", vec3(0.2f, 0.1f, 0.03f));
+    prog.setUniform("Material.Ks", vec3(0.6f, 0.6f, 0.6f));
     prog.setUniform("Material.Shininess", 30.0f);
 
+    prog.setUniform("Sand", false);
+
     model = mat4(1.0f);
     model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(2.0f, 0.1f, -2.25f));
+    model = glm::translate(model, vec3(2.0f, 1.0f, -2.25f));
     setMatrices();
     mesh->render();
 
     model = mat4(1.0f);
     model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(1.5f, 0.1f, 1.5f));
+    model = glm::translate(model, vec3(1.5f, 0.8f, 1.5f));
     setMatrices();
     mesh->render();
 
     model = mat4(1.0f);
     model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(-1.0f, 0.1f, 2.0f));
+    model = glm::translate(model, vec3(0.0f, 0.8f, 2.0f));
     setMatrices();
     mesh->render();
 
     model = mat4(1.0f);
     model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(-2.0f, 0.1f, -2.0f));
+    model = glm::translate(model, vec3(0.0f, 0.8f, -2.0f));
     setMatrices();
     mesh->render();
 
     model = mat4(1.0f);
     model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(-0.25f, 0.1f, 0.0f));
+    model = glm::translate(model, vec3(-0.25f, 0.8f, 0.0f));
     setMatrices();
     mesh->render();
 
     model = mat4(1.0f);
     model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(-2.20f, 0.1f, 0.20));
+    model = glm::translate(model, vec3(1.20f, 0.8f, 0.20));
     setMatrices();
     mesh->render();
 
-    prog.setUniform("Material.Kd", vec3(0.76f, 0.7f, 0.5f));
-    prog.setUniform("Material.Ka", vec3(0.6f, 0.55f, 0.4f));
-    prog.setUniform("Material.Ks", vec3(0.9f, 0.9f, 0.9f));
-    prog.setUniform("Material.Shininess", 100.0f);
+    model = mat4(1.0f);
+    model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+    model = glm::translate(model, vec3(3.0f, 0.8f, 0.20));
+    setMatrices();
+    mesh->render();
+
+    prog.setUniform("Sand", true);
+
+    GLuint texID = Texture::loadTexture("media/texture/sand.png");
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texID);
 
     model = mat4(1.0f);
     model = glm::translate(model, vec3(0.0f, -0.45f, 0.0f));

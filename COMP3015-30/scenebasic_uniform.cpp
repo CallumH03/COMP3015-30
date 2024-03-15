@@ -16,7 +16,7 @@ using std::endl;
 using glm::vec3;
 using glm::mat4;
 
-SceneBasic_Uniform::SceneBasic_Uniform() : plane(10.0f,10.0f,100,100) {
+SceneBasic_Uniform::SceneBasic_Uniform() : plane(50.0f,50.0f,100,100) {
     mesh = ObjMesh::load("../COMP3015-30/media/palmtree.obj",true);
 }
 
@@ -26,9 +26,7 @@ void SceneBasic_Uniform::initScene()
     compile();
     glEnable(GL_DEPTH_TEST);
     model = mat4(1.0f);
-    view = glm::lookAt(vec3(0.5f, 0.75f, 0.75f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
-    //model = glm::rotate(model, glm::radians(-35.0f), vec3(1.0f, 0.0f, 0.0f));
-    //model = glm::rotate(model, glm::radians(15.0f), vec3(0.0f, 1.0f, 0.0f));
+    view = glm::lookAt(vec3(2.75f, 1.00f, 2.00f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
     projection = mat4(1.0f);
 
     float x, z;
@@ -37,16 +35,19 @@ void SceneBasic_Uniform::initScene()
         name << "lights[" << i << "].Position";
         x = 2.0f * cosf((glm::two_pi<float>() / 3) * i);
         z = 2.0f * sinf((glm::two_pi<float>() / 3) * i);
-        prog.setUniform(name.str().c_str(), view * glm::vec4(x, 1.2f, z + 1.0f, 1.0f));
+        prog.setUniform(name.str().c_str(), view * glm::vec4(x, 5.0f, z + 1.0f, 1.0f));
     }
+    prog.setUniform("Fog.MaxDist", 10.0f);
+    prog.setUniform("Fog.MinDist", 1.0f);
+    prog.setUniform("Fog.Color", vec3(0.5f, 0.5f, 0.5f));
 
     prog.setUniform("lights[0].L", vec3(0.0f, 0.0f, 0.8f));
     prog.setUniform("lights[1].L", vec3(0.0f, 0.8f, 0.0f));
-    prog.setUniform("lights[2].L", vec3(0.8f, 0.0f, 0.0f));
+    prog.setUniform("lights[2].L", vec3(0.8f, 0.4f, 0.0f));
 
     prog.setUniform("lights[0].La", vec3(0.0f, 0.0f, 0.2f));
     prog.setUniform("lights[1].La", vec3(0.0f, 0.2f, 0.0f));
-    prog.setUniform("lights[2].La", vec3(0.2f, 0.0f, 0.0f));
+    prog.setUniform("lights[2].La", vec3(0.2f, 0.1f, 0.0f));
 
 
 }
@@ -74,20 +75,51 @@ void SceneBasic_Uniform::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    prog.setUniform("Material.Kd", vec3(0.4f, 0.4f, 0.4f));
-    prog.setUniform("Material.Ka", vec3(0.5f, 0.5f, 0.5f));
-    prog.setUniform("Material.Ks", vec3(0.9f, 0.9f, 0.9f));
-    prog.setUniform("Material.Shininess", 180.0f);
+    prog.setUniform("Material.Kd", vec3(0.54f, 0.27f, 0.07f));
+    prog.setUniform("Material.Ka", vec3(0.4f, 0.2f, 0.05f));
+    prog.setUniform("Material.Ks", vec3(0.8f, 0.8f, 0.8f));
+    prog.setUniform("Material.Shininess", 30.0f);
 
     model = mat4(1.0f);
     model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+    model = glm::translate(model, vec3(2.0f, 0.1f, -2.25f));
     setMatrices();
     mesh->render();
 
-    prog.setUniform("Material.Kd", vec3(0.1f, 0.1f, 0.1f));
-    prog.setUniform("Material.Ka", vec3(0.1f, 0.1f, 0.1f));
+    model = mat4(1.0f);
+    model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+    model = glm::translate(model, vec3(1.5f, 0.1f, 1.5f));
+    setMatrices();
+    mesh->render();
+
+    model = mat4(1.0f);
+    model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+    model = glm::translate(model, vec3(-1.0f, 0.1f, 2.0f));
+    setMatrices();
+    mesh->render();
+
+    model = mat4(1.0f);
+    model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+    model = glm::translate(model, vec3(-2.0f, 0.1f, -2.0f));
+    setMatrices();
+    mesh->render();
+
+    model = mat4(1.0f);
+    model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+    model = glm::translate(model, vec3(-0.25f, 0.1f, 0.0f));
+    setMatrices();
+    mesh->render();
+
+    model = mat4(1.0f);
+    model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+    model = glm::translate(model, vec3(-2.20f, 0.1f, 0.20));
+    setMatrices();
+    mesh->render();
+
+    prog.setUniform("Material.Kd", vec3(0.76f, 0.7f, 0.5f));
+    prog.setUniform("Material.Ka", vec3(0.6f, 0.55f, 0.4f));
     prog.setUniform("Material.Ks", vec3(0.9f, 0.9f, 0.9f));
-    prog.setUniform("Material.Shininess", 180.0f);
+    prog.setUniform("Material.Shininess", 100.0f);
 
     model = mat4(1.0f);
     model = glm::translate(model, vec3(0.0f, -0.45f, 0.0f));

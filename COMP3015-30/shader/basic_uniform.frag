@@ -18,6 +18,12 @@ uniform struct MaterialInfo{
     float Shininess;
 }Material;
 
+uniform struct FogInfo{
+    float MaxDist;
+    float MinDist;
+    vec3 Color;
+}Fog;
+
 vec3 phongModel( int light, vec3 position, vec3 n){
     vec3 ambient=lights[light].La*Material.Ka;
     vec3 s=normalize(vec3(lights[light].Position.xyz)-position);
@@ -33,10 +39,18 @@ vec3 phongModel( int light, vec3 position, vec3 n){
 }
 
 void main() {
+    vec3 NormalizedNormal = normalize(Normal);
+    vec3 Colour = vec3(0.0);
 
-    vec3 Colour=vec3(0.0);
-    for (int i=0;i<3;i++)
-        Colour+=phongModel(i,Position,Normal);
+    for (int i = 0; i < 3; i++) {
+        Colour += phongModel(i, Position, NormalizedNormal);
+    }
 
-    FragColor = vec4(Colour, 1.0);
+    float dist = abs(Position.z);
+    float fogFactor = (Fog.MaxDist - dist) / (Fog.MaxDist - Fog.MinDist);
+    fogFactor = clamp(fogFactor, 0.0, 1.0);
+
+    vec3 finalColor = mix(Fog.Color, Colour, fogFactor);
+
+    FragColor = vec4(finalColor, 1.0);
 }

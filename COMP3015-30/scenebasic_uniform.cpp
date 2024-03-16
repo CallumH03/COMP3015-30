@@ -87,7 +87,7 @@ void SceneBasic_Uniform::render()
     //Dont enable sand texture for mesh
     prog.setUniform("Sand", false);
 
-    //Load sand texture
+    //Load tree texture
     GLuint texID2 = Texture::loadTexture("media/texture/tree.png");
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texID2);
@@ -136,7 +136,7 @@ void SceneBasic_Uniform::render()
     mesh->render();
 
 
-    //Enable texture for plane
+    //Enable sand texture for plane
     prog.setUniform("Sand", true);
 
     //Load sand texture

@@ -45,7 +45,7 @@ void SceneBasic_Uniform::initScene()
 
     //Light properties
     prog.setUniform("lights[0].L", vec3(0.0f, 0.0f, 0.8f));
-    prog.setUniform("lights[1].L", vec3(0.0f, 0.8f, 0.0f));
+    prog.setUniform("lights[1].L", vec3(0.0f, 0.01f, 0.0f));
     prog.setUniform("lights[2].L", vec3(0.8f, 0.4f, 0.0f));
 
     prog.setUniform("lights[0].La", vec3(0.0f, 0.0f, 0.2f));
@@ -86,6 +86,11 @@ void SceneBasic_Uniform::render()
 
     //Dont enable sand texture for mesh
     prog.setUniform("Sand", false);
+
+    //Load sand texture
+    GLuint texID2 = Texture::loadTexture("media/texture/tree.png");
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texID2);
 
     //Render mesh at certain point + rotation
     model = mat4(1.0f);
@@ -129,6 +134,7 @@ void SceneBasic_Uniform::render()
     model = glm::translate(model, vec3(3.0f, 0.8f, 0.20));
     setMatrices();
     mesh->render();
+
 
     //Enable texture for plane
     prog.setUniform("Sand", true);

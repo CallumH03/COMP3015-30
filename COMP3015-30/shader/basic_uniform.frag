@@ -7,6 +7,7 @@ in vec2 TexCoord;
 
 //Texture sampler
 layout (binding=0) uniform sampler2D Tex1;
+layout (binding=1) uniform sampler2D Tex2;
 
 //Output variable
 layout (location = 0) out vec4 FragColor;
@@ -41,6 +42,9 @@ vec3 phongModel( int light, vec3 position, vec3 n){
     vec3 texColor = vec3(0.7f, 0.4f, 0.2f);
     if (Sand) {
         texColor = texture(Tex1, TexCoord).rgb;
+    }
+    else {
+        texColor = texture(Tex2, TexCoord).rgb;
     }
     vec3 ambient=lights[light].La*texColor;;
     vec3 s=normalize(vec3(lights[light].Position.xyz)-position);

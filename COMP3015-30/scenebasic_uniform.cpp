@@ -18,7 +18,7 @@ using glm::vec3;
 using glm::mat4;
 
 SceneBasic_Uniform::SceneBasic_Uniform() : plane(18.0f,18.0f,100,100) { //Initializes plane object
-    mesh = ObjMesh::load("../COMP3015-30/media/palmtree.obj",true); //Loads in custom model
+    mesh = ObjMesh::load("media/palmtree.obj",true); //Loads in custom model
 }
 
 

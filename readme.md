@@ -24,4 +24,4 @@ To run simply
 - Next open BuildEXE and Run PalmTreeBeach.exe
 
 ## Video Explanation
-Youtube:
+Youtube: https://www.youtube.com/watch?v=gb7B1T7OGQw

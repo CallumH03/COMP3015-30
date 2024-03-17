@@ -31,7 +31,7 @@ void SceneBasic_Uniform::initScene()
     projection = mat4(1.0f);
 
     float x, z;
-    for (int i = 0; i < 3; i++) { //Calculate light positions
+    for (int i = 0; i < 3; i++) { //Calculate light positions (3 lights)
         std::stringstream name;
         name << "lights[" << i << "].Position";
         x = 2.0f * cosf((glm::two_pi<float>() / 3) * i);
@@ -51,7 +51,6 @@ void SceneBasic_Uniform::initScene()
     prog.setUniform("lights[0].La", vec3(0.0f, 0.0f, 0.2f));
     prog.setUniform("lights[1].La", vec3(0.0f, 0.2f, 0.0f));
     prog.setUniform("lights[2].La", vec3(0.2f, 0.1f, 0.0f));
-
 
 }
 
@@ -144,7 +143,7 @@ void SceneBasic_Uniform::render()
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texID);
 
-    //Render plane with sand textureur 
+    //Render plane with sand texture
     model = mat4(1.0f);
     model = glm::translate(model, vec3(0.0f, -0.45f, 0.0f));
     setMatrices();
@@ -156,10 +155,10 @@ void SceneBasic_Uniform::render()
 
 void SceneBasic_Uniform::resize(int w, int h)
 {
-    glViewport(0, 0, w, h);
+    glViewport(0, 0, w, h); //Viewpoint settings
     width = w;
     height = h;
-    projection = glm::perspective(glm::radians(70.0f), (float)w / h, 0.3f, 100.0f);
+    projection = glm::perspective(glm::radians(70.0f), (float)w / h, 0.3f, 100.0f); //Projection matrix
 
 }
 

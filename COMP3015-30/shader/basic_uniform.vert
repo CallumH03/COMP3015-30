@@ -27,7 +27,5 @@ void main()
     Normal = normalize(NormalMatrix*VertexNormal);
     //Transform vertex position
     Position = (ModelViewMatrix*vec4(VertexPosition,1.0)).xyz;
-
-    //Transform vertex position
     gl_Position = MVP*vec4(VertexPosition,1.0);
 }
